@@ -19,7 +19,10 @@ find_package(PCL REQUIRED)
 find_package(Eigen3 REQUIRED)
 
 if(NOT BUILD_PYTHON_BINDINGS)
-  find_package(catkin)
+  #find_package(catkin)
+  find_package(ament_cmake REQUIRED)
+  include_directories(include) 
+
 endif()
 
 find_package(OpenMP)
@@ -158,3 +161,22 @@ if(catkin_FOUND)
     DESTINATION ${CATKIN_GLOBAL_INCLUDE_DESTINATION}
     FILES_MATCHING PATTERN "*.hpp")
 endif()
+
+install(TARGETS fast_gicp
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
+
+install(DIRECTORY include/${PROJECT_NAME}
+  DESTINATION include/${PROJECT_NAME}
+)
+
+ament_export_include_directories(include) 
+ament_export_libraries(${PROJECT_NAME})
+
+## Tests
+#if(CATKIN_ENABLE_TESTING)
+    #add_subdirectory(tests)
+#endif()
+
+ament_package()
