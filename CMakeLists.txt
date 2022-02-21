@@ -101,7 +101,8 @@ endif()
 
 ### CUDA ###
 if(BUILD_VGICP_CUDA)
-  set(CUDA_NVCC_FLAGS "--expt-relaxed-constexpr")
+  set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-O3 -gencode arch=compute_60,code=sm_60)
+
   add_definitions(-DUSE_VGICP_CUDA)
 
   cuda_add_library(fast_vgicp_cuda SHARED
@@ -163,12 +164,13 @@ if(catkin_FOUND)
 endif()
 
 install(TARGETS fast_gicp
+                fast_vgicp_cuda
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin)
 
-install(DIRECTORY include/${PROJECT_NAME}
-  DESTINATION include/${PROJECT_NAME}
+install(DIRECTORY include/
+  DESTINATION include/
 )
 
 ament_export_include_directories(include) 
