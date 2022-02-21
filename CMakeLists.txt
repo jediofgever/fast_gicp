@@ -101,7 +101,7 @@ endif()
 
 ### CUDA ###
 if(BUILD_VGICP_CUDA)
-  set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-O3 -gencode arch=compute_60,code=sm_60)
+  set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-O3 -gencode arch=compute_50,code=sm_50)
 
   add_definitions(-DUSE_VGICP_CUDA)
 
