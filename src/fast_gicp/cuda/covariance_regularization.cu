@@ -31,10 +31,9 @@ struct eigenvalue_filter_kernel {
 };
 
 struct svd_reconstruction_kernel {
-  svd_reconstruction_kernel(
-    const thrust::device_ptr<const Eigen::Matrix3f>& values_diag,
-    thrust::device_vector<Eigen::Matrix3f>& covariances)
-  : values_diag_ptr(values_diag), covariances_ptr(covariances.data()) {}
+  svd_reconstruction_kernel(const thrust::device_ptr<const Eigen::Matrix3f>& values_diag, thrust::device_vector<Eigen::Matrix3f>& covariances)
+  : values_diag_ptr(values_diag),
+    covariances_ptr(covariances.data()) {}
   __host__ __device__ void operator()(const thrust::tuple<Eigen::Vector3f, Eigen::Vector3f, Eigen::Matrix3f, int>& input) const {
     const auto& mean = thrust::get<0>(input);
     const auto& values = thrust::get<1>(input);
@@ -49,8 +48,6 @@ struct svd_reconstruction_kernel {
   const thrust::device_ptr<const Eigen::Matrix3f> values_diag_ptr;
   thrust::device_ptr<Eigen::Matrix3f> covariances_ptr;
 };
-
-
 
 struct covariance_regularization_svd {
   __host__ __device__ void operator()(Eigen::Matrix3f& cov) const {
